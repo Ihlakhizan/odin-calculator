@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="scripts.js" defer></script>
     <title>Calculator - Odin Project</title>
 </head>
 <body>
     <header>
+        <h1>Calculator</h1>
     </header>
     <main>
         <div class="calc">
@@ -18,27 +22,35 @@
                 <div class="calc-display">0</div>
             </div>
             <div class="calc-buttons">
-                <button class="number" value=0 data-key="48">0</button>
-                <button class="number" value=1 data-key="49">1</button>
-                <button class="number" value=2 data-key="50">2</button>
-                <button class="number" value=3 data-key="51">3</button>
-                <button class="number" value=4 data-key="52">4</button>
-                <button class="number" value=5 data-key="53">5</button>
-                <button class="number" value=6 data-key="54">6</button>
-                <button class="number" value=7 data-key="55">7</button>
-                <button class="number" value=8 data-key="56">8</button>
-                <button class="number" value=9 data-key="57">9</button>
-                <button class="operator" value="+">+</button>
-                <button class="operator" value="-">-</button>
-                <button class="operator" value="/">/</button>
-                <button class="operator" value="*">*</button>
-                <button class="special" id="decimal" value=".">.</button>
                 <button class="special" id="all-clear" value="AC">AC</button>
                 <button class="special" id="clear" value="C">C</button>
                 <button class="special" id="delete" value="delete">DEL</button>
-                <button class="special" id="equals" value="=">=</button>
+                <button class="operator" value="/">/</button>
+
+                <button class="number light" value=7>7</button>
+                <button class="number light" value=8>8</button>
+                <button class="number light" value=9>9</button>
+                <button class="operator" value="*">*</button>
+                
+                <button class="number light" value=4>4</button>
+                <button class="number light" value=5>5</button>
+                <button class="number light" value=6>6</button>
+                <button class="operator" value="-">-</button>
+                
+                <button class="number light" value=1>1</button>
+                <button class="number light" value=2>2</button>
+                <button class="number light" value=3>3</button>
+                <button class="operator" value="+">+</button>
+                
+                <button class="special light" id="plus-minus" value="plus-minus">±</button>
+                <button class="number light" value=0>0</button>
+                <button class="special light" id="decimal" value=".">.</button>
+                <button class="special equals" id="equals" value="=">=</button>
             </div>
         </div>
     </main>
+    <footer>
+        <div>Created by <a href="https://github.com/Ihlakhizan/odin-calculator">Manoranjan Kumar</a></div>
+    </footer>
 </body>
 </html>

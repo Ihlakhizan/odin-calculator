@@ -14,8 +14,9 @@ const equalsButton = document.getElementById("equals");
 const allClearButton = document.getElementById("all-clear");
 const clearButton = document.getElementById("clear");
 const deleteButton = document.getElementById("delete");
+const plusMinusButton = document.getElementById("plus-minus");
 
-// Add event listeners to the number buttons, operator buttons, and special buttons (equals, C, AC, DEL, decimal)
+// Add event listeners to the number buttons, operator buttons, and special buttons
 numberButtons.forEach(button => {
     button.addEventListener("click", () => {
         appendValue(button.value);
@@ -33,6 +34,7 @@ allClearButton.addEventListener("click", () => clearAll());
 clearButton.addEventListener("click", () => resetDisplay());
 deleteButton.addEventListener("click", () => deleteLastDigit());
 decimalButton.addEventListener("click", () => addDecimalPoint());
+plusMinusButton.addEventListener("click", () => switchSigns());
 
 // Add event listener to the window to check for keystrokes
 window.addEventListener("keydown", (e) => {
@@ -172,6 +174,17 @@ function deleteLastDigit() {
     calcDisplay.textContent = calcDisplay.textContent.slice(0, -1); // Deletes the last character of the display string
 
     if (calcDisplay.textContent === "") calcDisplay.textContent = "0";
+    return;
+}
+
+// +-: Switches the sign of the current value
+function switchSigns() {
+    if (calcDisplay.textContent === "0") return;
+    if (Number(calcDisplay.textContent) > 0) {
+        calcDisplay.textContent = "-" + calcDisplay.textContent;
+        return;
+    }
+    calcDisplay.textContent = calcDisplay.textContent.slice(1);
     return;
 }
 

@@ -1,3 +1,131 @@
+/* GENERAL */
 * {
     box-sizing: border-box;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+:root {
+    --background-dark: #202020;
+    --button-light: #3B3B3B;
+    --button-dark: #323232;
+    --button-darker: #222222;
+    --button-equals: #4CC2FF;
+    --button-equals-light: #67cbfe;
+}
+
+/* HEADER */
+
+header {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+h1 {
+    padding: 20px 0;
+    font-size: 64px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* BODY */
+body {
+    background-color: whitesmoke;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+main {
+    display: flex;
+    justify-content: center;
+    margin-bottom: auto;
+}
+
+/* Calculator container */
+.calc {
+    width: 300px;
+    max-width: 100%;
+    background-color: var(--background-dark);
+    color: white;
+    padding: 5px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.35);
+
+    text-align: right;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+}
+
+/* Calculator display screen */
+.calc-display-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0 5px;
+}
+.calc-display-history {
+    font-size: 14px;
+    min-height: 20px;
+}
+.calc-display {
+    font-size: 40px;
+    font-weight: 500;
+}
+
+/* Calculator buttons */
+.calc-buttons {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 3px;
+}
+.calc-buttons button {
+    background: none;
+    flex: 1 0 22%; /* Leaves some space for the gap, and grows to fill unused space */
+    height: 50px;
+    font-size: 16px;
+    background-color: var(--button-dark);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+.calc-buttons button:hover {
+    background-color: var(--button-light);
+}
+.calc-buttons button:active {
+    background-color: var(--button-dark);
+}
+
+/* Light buttons */
+.calc-buttons .light {
+    background-color: var(--button-light);
+    border: none;
+    font-size: 20px;
+}
+.calc-buttons .light:hover {
+    background-color: var(--button-dark);
+}
+.calc-buttons .light:active {
+    background-color: var(--button-darker);
+}
+
+/* Equals button */
+.calc-buttons .equals {
+    background-color: var(--button-equals);
+    color: black;
+}
+.calc-buttons .equals:hover {
+    background-color: var(--button-equals-light);
+}
+
+/* Footer */
+footer {
+    padding: 15px;
+    font-size: 20px;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: var(--button-equals);
 }
