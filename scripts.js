@@ -9,12 +9,13 @@ const calcDisplay = document.querySelector(".calc-display");
 const calcHistory = document.querySelector(".calc-display-history");
 const numberButtons = document.querySelectorAll(".number");
 const operatorButtons = document.querySelectorAll(".operator");
+const decimalButton = document.getElementById("decimal");
 const equalsButton = document.getElementById("equals");
 const allClearButton = document.getElementById("all-clear");
 const clearButton = document.getElementById("clear");
 const deleteButton = document.getElementById("delete");
 
-// Add event listeners to the number buttons, operator buttons, and special buttons (equals, C, AC, DEL)
+// Add event listeners to the number buttons, operator buttons, and special buttons (equals, C, AC, DEL, decimal)
 numberButtons.forEach(button => {
     button.addEventListener("click", () => {
         appendValue(button.value);
@@ -31,6 +32,24 @@ equalsButton.addEventListener("click", () => isEqualTo());
 allClearButton.addEventListener("click", () => clearAll());
 clearButton.addEventListener("click", () => resetDisplay());
 deleteButton.addEventListener("click", () => deleteLastDigit());
+decimalButton.addEventListener("click", () => addDecimalPoint());
+
+// Add event listener to the window to check for keystrokes
+window.addEventListener("keydown", (e) => {
+    acceptKeyboardInput(e.key);
+});
+
+// Activate the buttons according to the keypresses
+function acceptKeyboardInput(key) {
+    if (Number(key) || key === "0") appendValue(key); // 0-9
+    if (key === ".") addDecimalPoint();
+    if (key === "+" || key === "-" || key === "/" || key === "*") setOperator(key);
+    if (key === "Escape") clearAll();
+    if (key === "Delete") resetDisplay();
+    if (key === "Backspace") deleteLastDigit();
+    if (key === "=" || key === "Enter") isEqualTo();
+    return;
+}
 
 // Mathematical functions that are called on by operate()
 function add(num1, num2) {
@@ -70,11 +89,14 @@ function appendValue(value) {
 
 // Stores the clicked operator and operand 1, and executes the operation if an operator is already present
 function setOperator(operator) {
-    if (currentOperator !== null) runOperation();
+    if (currentOperator !== null) {
+        runOperation();
+        //currentOperator = null;
+    }
 
     currentOperator = operator;
     operand1 = calcDisplay.textContent;
-    calcHistory.textContent = `${calcDisplay.textContent} ${currentOperator}`;
+    calcHistory.textContent = `${operand1} ${currentOperator}`;
     shouldResetDisplay = true; // So that the display resets when entering a new number
     return;
 }
@@ -101,6 +123,12 @@ function roundNumber(num, decimalPlaces) {
     return Math.round((num * num2)) / num2;
 }
 
+function addDecimalPoint() {
+    if (calcDisplay.textContent.includes(".")) return;
+    calcDisplay.textContent += ".";
+    return;
+}
+
 // Resets the calculator display when called (also C)
 function resetDisplay() {
     calcDisplay.textContent = "0";
@@ -117,8 +145,11 @@ function resetHistory() {
 // =: Returns the current result
 function isEqualTo() {
     if (currentOperator === null) return; // If there's no operator, do nothing
+
     runOperation();
-    calcHistory.textContent += `${operand2} =`; // Adds the last operand called and an equals sign to the history
+    //currentOperator = null;
+
+    calcHistory.textContent += ` ${operand2} =`; // Adds the last operand called and an equals sign to the history
     shouldResetDisplay = true; // Resets display next time a number is entered
     return;
 }
@@ -148,5 +179,6 @@ function debug() {
     console.log(`operand1: ${operand1}`);
     console.log(`operand2: ${operand2}`);
     console.log(`currentOperator: ${currentOperator}`);
+    console.log(`shouldResetDisplay: ${shouldResetDisplay}`);
     return;
 }
