@@ -4,10 +4,26 @@ let operand1 = null;
 let operand2 = null;
 let shouldResetDisplay = false;
 
+// Initialize calculator display and buttons
 const calcDisplay = document.querySelector(".calc-display");
 const equalsButton = document.getElementById("equals-button");
+const numberButtons = document.querySelectorAll(".number");
+const operatorButtons = document.querySelectorAll(".operator");
 
-// Basic arithmetic functions
+// Add event listeners to the number buttons, operator buttons, and special buttons (equals, C, AC, DEL)
+numberButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        appendValue(button.value);        
+    });
+});
+operatorButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        setOperator(button.value);
+    });
+});
+equalsButton.addEventListener("click", () => isEqualTo());
+
+// Mathematical functions that are called on by operate()
 function add(num1, num2) {
     return num1 + num2;
 }
@@ -21,7 +37,7 @@ function divide(num1, num2) {
     return num1 / num2;
 }
 
-// Calls relevant arithmetic function based on operator entered
+// Returns a number based on the 2 numbers entered and the operator
 function operate(num1, num2, operator) {
     switch (operator) {
         case "+":
@@ -35,51 +51,28 @@ function operate(num1, num2, operator) {
     }
 }
 
-// Add event listeners to the number buttons that runs appendValue()
-const numberButtons = document.querySelectorAll(".number");
-numberButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        appendValue(button.value);        
-    });
-});
-
-// Add event listeners to the operator buttons
-const operatorButtons = document.querySelectorAll(".operator");
-operatorButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        setOperator(button.value);
-    });
-});
-
-// Add event listener to the equals button
-equalsButton.addEventListener("click", () => {
-    isEqualTo();
-})
-
 // Appends the clicked number to the current value and displays it
 function appendValue(value) {
-    if (shouldResetDisplay === true) resetDisplay(); // Resets display if an operation was performed
-    if (calcDisplay.textContent === "0") calcDisplay.textContent = ""; // Removes the starting '0'
+    if (shouldResetDisplay === true) resetDisplay(); // Resets display if an operation was just performed
+    if (calcDisplay.textContent === "0") calcDisplay.textContent = ""; // Removes the starting '0' when entering a new number
     calcDisplay.textContent += value;
     return;
 }
 
-// Stores the clicked operator
+// Stores the clicked operator and operand 1, and executes the operation if an operator is already present
 function setOperator(operator) {
     if (currentOperator !== null) runOperation();
     currentOperator = operator;
     operand1 = calcDisplay.textContent;
-    shouldResetDisplay = true;
+    shouldResetDisplay = true; // So that the display resets when entering a new number
     return;
 }
 
-// Executes the operation, resets the operator
+// Executes the operation and resets the current operator
 function runOperation() {
-    // If there's already an operator, don't do anything
     if (shouldResetDisplay) return;
-    // Grab current number as operand 2
     operand2 = calcDisplay.textContent;
-    // Update display with solved number, then reset current operator
+    // Update display with correct result
     calcDisplay.textContent = operate(Number(operand1), Number(operand2), currentOperator);
     currentOperator = null;
     return;
@@ -94,8 +87,8 @@ function resetDisplay() {
 
 // Enables equal button functionality
 function isEqualTo() {
-    if (currentOperator === null) return;
+    if (currentOperator === null) return; // If there's no operator, do nothing
     runOperation();
-    shouldResetDisplay = true;
+    shouldResetDisplay = true; // Resets display next time a number is entered
     return;
 }
