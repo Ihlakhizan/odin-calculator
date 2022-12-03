@@ -4,8 +4,9 @@ let operand1 = null;
 let operand2 = null;
 let shouldResetDisplay = false;
 
-// Fetch calculator display and buttons and stores them in variables
+// Fetch calculator display, history, and buttons and stores them in variables
 const calcDisplay = document.querySelector(".calc-display");
+const calcHistory = document.querySelector(".calc-display-history");
 const numberButtons = document.querySelectorAll(".number");
 const operatorButtons = document.querySelectorAll(".operator");
 const equalsButton = document.getElementById("equals");
@@ -16,7 +17,7 @@ const deleteButton = document.getElementById("delete");
 // Add event listeners to the number buttons, operator buttons, and special buttons (equals, C, AC, DEL)
 numberButtons.forEach(button => {
     button.addEventListener("click", () => {
-        appendValue(button.value);        
+        appendValue(button.value);
     });
 });
 
@@ -73,13 +74,14 @@ function setOperator(operator) {
 
     currentOperator = operator;
     operand1 = calcDisplay.textContent;
+    calcHistory.textContent = `${calcDisplay.textContent} ${currentOperator}`;
     shouldResetDisplay = true; // So that the display resets when entering a new number
     return;
 }
 
-// Executes the operation and resets the current operator
+// Executes the operation, updates operand2, and resets the current operator
 function runOperation() {
-    if (shouldResetDisplay) return;
+    if (shouldResetDisplay) return; // Stops the code below from running if the equals button was clicked
 
     if (calcDisplay.textContent === "0" && currentOperator === "/") {
         alert("Don't try to divide by zero! It makes the computer unhappy :(");
@@ -99,34 +101,44 @@ function roundNumber(num, decimalPlaces) {
     return Math.round((num * num2)) / num2;
 }
 
-// Resets the calculator display when called
+// Resets the calculator display when called (also C)
 function resetDisplay() {
     calcDisplay.textContent = "0";
     shouldResetDisplay = false;
     return;
 }
 
-// Returns the current result
+// Resets the calculator history when called
+function resetHistory() {
+    calcHistory.textContent = "";
+    return;
+}
+
+// =: Returns the current result
 function isEqualTo() {
     if (currentOperator === null) return; // If there's no operator, do nothing
     runOperation();
+    calcHistory.textContent += `${operand2} =`; // Adds the last operand called and an equals sign to the history
     shouldResetDisplay = true; // Resets display next time a number is entered
     return;
 }
 
-// Clears the display and resets all variables
+// AC: Clears the display and history and resets all variables
 function clearAll() {
     currentOperator = null;
     operand1 = null;
     operand2 = null;
     resetDisplay();
+    resetHistory();
     return;
 }
 
-// Deletes the last digit of the entered number
+// DEL: Deletes the last digit of the entered number
 function deleteLastDigit() {
     if (shouldResetDisplay === true) resetDisplay(); // Resets the display if an operation was just entered
+
     calcDisplay.textContent = calcDisplay.textContent.slice(0, -1); // Deletes the last character of the display string
+
     if (calcDisplay.textContent === "") calcDisplay.textContent = "0";
     return;
 }
