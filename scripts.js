@@ -1,14 +1,16 @@
-//let currentValue = "";
+// Initialize variables
 let currentOperator = null;
 let operand1 = null;
 let operand2 = null;
 let shouldResetDisplay = false;
 
-// Initialize calculator display and buttons
+// Fetch calculator display and buttons and stores them in variables
 const calcDisplay = document.querySelector(".calc-display");
-const equalsButton = document.getElementById("equals-button");
 const numberButtons = document.querySelectorAll(".number");
 const operatorButtons = document.querySelectorAll(".operator");
+const equalsButton = document.getElementById("equals");
+const allClearButton = document.getElementById("all-clear");
+const deleteButton = document.getElementById("delete");
 
 // Add event listeners to the number buttons, operator buttons, and special buttons (equals, C, AC, DEL)
 numberButtons.forEach(button => {
@@ -16,12 +18,18 @@ numberButtons.forEach(button => {
         appendValue(button.value);        
     });
 });
+
 operatorButtons.forEach(button => {
     button.addEventListener("click", () => {
         setOperator(button.value);
     });
 });
+
 equalsButton.addEventListener("click", () => isEqualTo());
+
+allClearButton.addEventListener("click", () => clearAll());
+
+deleteButton.addEventListener("click", () => deleteLastDigit());
 
 // Mathematical functions that are called on by operate()
 function add(num1, num2) {
@@ -78,17 +86,42 @@ function runOperation() {
     return;
 }
 
-// Resets the calculator display
+// Resets the calculator display when called
 function resetDisplay() {
     calcDisplay.textContent = "0";
     shouldResetDisplay = false;
     return;
 }
 
-// Enables equal button functionality
+// Returns the current result
 function isEqualTo() {
     if (currentOperator === null) return; // If there's no operator, do nothing
     runOperation();
     shouldResetDisplay = true; // Resets display next time a number is entered
+    return;
+}
+
+// Clears the display and resets all variables
+function clearAll() {
+    currentOperator = null;
+    operand1 = null;
+    operand2 = null;
+    resetDisplay();
+    return;
+}
+
+// Deletes the last digit of the entered number
+function deleteLastDigit() {
+    if (shouldResetDisplay === true) resetDisplay(); // Resets display if a 
+    calcDisplay.textContent = calcDisplay.textContent.slice(0, -1);
+    if (calcDisplay.textContent === "") calcDisplay.textContent = "0";
+    return;
+}
+
+// Just for debugging purposes :)
+function debug() {
+    console.log(`operand1: ${operand1}`);
+    console.log(`operand2: ${operand2}`);
+    console.log(`currentOperator: ${currentOperator}`);
     return;
 }
