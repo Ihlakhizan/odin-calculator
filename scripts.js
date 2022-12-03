@@ -39,7 +39,7 @@ window.addEventListener("keydown", (e) => {
     acceptKeyboardInput(e.key);
 });
 
-// Activate the buttons according to the keypresses
+// Call the appropriate function for the key
 function acceptKeyboardInput(key) {
     if (Number(key) || key === "0") appendValue(key); // 0-9
     if (key === ".") addDecimalPoint();
@@ -123,6 +123,7 @@ function roundNumber(num, decimalPlaces) {
     return Math.round((num * num2)) / num2;
 }
 
+// Adds a decimal point when called if one is not already present
 function addDecimalPoint() {
     if (calcDisplay.textContent.includes(".")) return;
     calcDisplay.textContent += ".";
